@@ -21,6 +21,12 @@ export const Dashboard = ({ stats, games, onDelete }) => {
                     <p className="text-zinc-400 text-sm font-medium">Losses</p>
                     <p className="text-2xl font-bold text-rose-400">{stats.losses}</p>
                 </div>
+                <div className="bg-zinc-800 p-4 rounded-xl border border-zinc-700 shadow-lg col-span-2 sm:col-span-1">
+                    <p className="text-zinc-400 text-sm font-medium">Games to Next %</p>
+                    <p className="text-2xl font-bold text-blue-400">
+                        {stats.gamesToNextInteger > 0 ? `+${stats.gamesToNextInteger} Wins` : '-'}
+                    </p>
+                </div>
             </div>
 
             {/* Recent History */}
@@ -40,8 +46,8 @@ export const Dashboard = ({ stats, games, onDelete }) => {
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${game.result === 'win'
-                                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                                            : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                        : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                                         }`}>
                                         {game.result.toUpperCase()}
                                     </span>

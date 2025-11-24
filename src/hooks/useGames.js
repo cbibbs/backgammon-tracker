@@ -54,10 +54,31 @@ export const useGames = () => {
         const wins = games.filter(g => g.result === 'win').length;
         const losses = games.filter(g => g.result === 'loss').length;
         // Calculate win rate with 3 decimal points
-        const winRate = total === 0 ? 0 : ((wins / total) * 100).toFixed(3);
+        const winRateVal = total === 0 ? 0 : (wins / total) * 100;
+        const winRate = winRateVal.toFixed(3);
 
-        return { total, wins, losses, winRate };
+        // Calculate games to next integer
+        let gamesToNextInteger = 0;
+        if (total > 0 && winRateVal < 100) {
+            const nextInteger = Math.floor(winRateVal) + 1;
+            let tempWins = wins;
+            let tempTotal = total;
+
+            // Safety break to prevent infinite loops if something goes wrong, though unlikely
+            while (gamesToNextInteger < 1000) {
+                gamesToNextInteger++;
+                tempWins++;
+                tempTotal++;
+                const newRate = (tempWins / tempTotal) * 100;
+                if (newRate >= nextInteger) {
+                    break;
+                }
+            }
+        }
+
+        return { total, wins, losses, winRate, gamesToNextInteger };
     };
 
     return { games, addGame, addBulkGames, deleteGame, getStats };
 };
+
