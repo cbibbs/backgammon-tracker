@@ -58,23 +58,10 @@ export const useGames = () => {
         const winRate = winRateVal.toFixed(3);
 
         // Calculate games to next integer
-        let gamesToNextInteger = 0;
-        if (total > 0 && winRateVal < 100) {
-            const nextInteger = Math.floor(winRateVal) + 1;
-            let tempWins = wins;
-            let tempTotal = total;
-
-            // Safety break to prevent infinite loops if something goes wrong, though unlikely
-            while (gamesToNextInteger < 1000) {
-                gamesToNextInteger++;
-                tempWins++;
-                tempTotal++;
-                const newRate = (tempWins / tempTotal) * 100;
-                if (newRate >= nextInteger) {
-                    break;
-                }
-            }
-        }
+        const nextInteger = Math.floor(winRateVal) + 1;
+        const gamesToNextInteger = nextInteger < 100
+            ? Math.ceil((nextInteger * total - 100 * wins) / (100 - nextInteger))
+            : null;
 
         return { total, wins, losses, winRate, gamesToNextInteger };
     };
